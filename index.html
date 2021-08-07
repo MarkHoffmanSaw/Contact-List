@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact list</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="card">
+        <div class="main-page">
+          <!-- ALWAYS VISIBLE & DYNAMICALLY CHANGING -->
+          <h1>{{ title }}</h1>
+          <!-- MAIN PAGE === CONTACT LIST - LIST 1 -->
+          <div v-if="this.mainPage">
+            <input
+              class="inputName"
+              type="text"
+              :placeholder="placeholderString"
+              v-model="inputValue"
+              v-on:keypress.enter="addNewContact"
+            />
+            <button class="btn" v-on:click="addNewContact">Add contact</button>
+            <span v-if="this.contacts.length === 0" class="bold">
+              <hr />
+              No contacts. Add someone
+            </span>
+            <li class="list-item" v-for="(contact, i) in contacts">
+              <span @click="moveToInfo(i)" class="bold">
+                {{ contact.fullName }}</span
+              >
+              <button class="btn danger" @click="alertDelete(i)">Delete</button>
+            </li>
+          </div>
+          <!-- ALERT! CONTACT DELETING -->
+          <div v-if="this.deleteIndicator">
+            <h3>Delete contact: <a>{{ nameContact }}</a>?</h3>
+            <button class="btn primary" @click="deleteContact">Yes</button>
+            <button class="btn danger" @click="noDeleteContact">No</button>
+          </div>
+        </div>
+        <!-- /////////////////////////////////////////////////////////////////////////// -->
+
+        <!-- CONTACT INFORMATION - LIST 2 -->
+        <!-- h1 -->
+        <div v-if="this.mainPage2">
+          <input
+            class="inputName"
+            v-model="inputExtraName"
+            type="text"
+            placeholder="info 1"
+          />:<input
+            class="inputName"
+            v-model="inputExtraInfo"
+            type="text"
+            placeholder="info 2"
+          />
+          <button v-if="this.isActiveInfo" class="btn primary" @click="addInfo">
+            Add info
+          </button>
+          <!-- BUTTONS FOR EDITING INFO -->
+          <span v-if="!this.isActiveInfo"
+            ><button class="btn danger" @click="saveInfo">Save info</button>
+            <button class="btn danger" @click="alertCancelEdit">
+              Cancel edit
+            </button></span
+          >
+          <!-- CONTACTS INFO ARRAY -->
+          <li class="list-item" v-for="(info, i) in currentContact.extraInfo">
+            <span class="bold">{{ info }}</span>
+            <span
+              ><button
+                v-if="this.isActiveInfo"
+                class="btn warning"
+                @click="editInfo(i)"
+              >
+                Edit
+              </button>
+              <button
+                v-if="this.isActiveInfo"
+                class="btn danger"
+                @click="alertDeleteExtraInfo(i)"
+              >
+                Delete the info
+              </button></span
+            >
+          </li>
+          <hr />
+          <!-- BACK TO THE CONTACT LIST -->
+          <span>
+            <button
+              v-if="this.isActiveInfo"
+              class="btn extra"
+              @click="moveToBack"
+            >
+              Contact List
+            </button>
+            <!-- TAKE A STEP BACK -->
+            <button
+              v-if="this.isActiveInfo"
+              class="btn extra"
+              @click="stepBack"
+            >
+              Step Back
+            </button></span
+          >
+        </div>
+        <!-- ALERT! EXTRA INFO DELETING -->
+        <div v-if="this.deleteIndicatorExtraInfo">
+          <h3>Delete the info about the contact?</h3>
+          <button class="btn primary" @click="deleteExtraInfo">Yes</button>
+          <button class="btn danger" @click="noDeleteExtraInfo">No</button>
+        </div>
+        <!-- ALERT! EXTRA INFO CANCELING -->
+        <div v-if="this.cancelIndicatorInfo">
+          <h3>Stop editing?</h3>
+          <button class="btn primary" @click="cancelEdit">Yes</button>
+          <button class="btn danger" @click="noCancelEdit">No</button>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
