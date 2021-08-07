@@ -1,5 +1,3 @@
-# Git and GitHub
+# Manual
 
-text
-
-text 2
+Перед использованием просьба ознакомиться с файлом manual.docx
