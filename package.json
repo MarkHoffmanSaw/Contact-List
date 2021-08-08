@@ -1,5 +1,6 @@
 {
     "name": "contact-list",
+    "main": "/app.js",
     "author": {
         "name": "Artur",
         "email": "tullers@mail.ru"
